@@ -4,7 +4,8 @@ import {GetStaticProps} from "next"
 
 import {CreateWallet, GetAmount, SendTransaction} from "../requests/blockchain"
 import { Wallet } from '../@types/types'
-import { useState } from 'react'
+import { useState ,useContext} from 'react'
+import {Context} from '../store/reducer'
 
 type Props = {
   wallet : Wallet
@@ -14,6 +15,8 @@ export default function WalletPage(props: Props) {
   const [recipientAddress, changeRecipientAddress] = useState("")
   const [amount, changeAmount] = useState(0)
   const [sendAmount, changeSendAmount] = useState(0)
+
+  const {state, dispatch} = useContext(Context)
 
   async function sendButtonHundler(senderPrivateKey: string, recipientAddress: string, senderAddress: string, value:number, senderPublicKey: string){
     if(window.confirm("送信しますか？")){
@@ -37,7 +40,8 @@ export default function WalletPage(props: Props) {
       </Head>
       <main>
         <div>
-          <h1>Wallet</h1>
+            wallet : TEST <br/>
+            {state.wallet.Address}
           <div>amount :{ amount }</div>
           <button onClick={async() => await getAmountButtonHundler()} id="sendMoneyButton" className="px-4 py-1 text-sm text-purple-600 font-semibold rounded-full border border-purple-200 hover:text-white hover:bg-purple-600 hover:border-transparent focus:outline-none focus:ring-2 focus:ring-purple-600 focus:ring-offset-2">Get Amount</button>
           <p>Public Key</p>
